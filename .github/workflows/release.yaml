@@ -7,6 +7,10 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    env:
+      CGO_ENABLED: 0
+      GOOS: linux
+      GOARCH: amd64
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
@@ -18,7 +22,7 @@ jobs:
       - name: test
         run: go test ./...
       - name: build
-        run: go build CGO_ENABLED=0 GOOS=linux GOARCH=amd64 -v -o mondoo-${{ github.ref_name }} ./...
+        run:  go build -v -o mondoo-${{ github.ref_name }} ./...
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -39,4 +43,11 @@ jobs:
           asset_path: ./mondoo-${{ github.ref_name }}
           asset_name: mondoo-${{ github.ref_name }}
           asset_content_type: application/octet-stream
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: cornelius-keller/mondoo-deploy
+          event-type: mondoo-deploy
+          payload: '{"version": "${{ github.ref_name }}", "url": "${{ steps.upload-release-asset.outputs.browser_download_url }}"}'
 
