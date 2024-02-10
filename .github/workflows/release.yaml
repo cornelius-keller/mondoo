@@ -46,7 +46,7 @@ jobs:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           repository: cornelius-keller/mondoo-deploy
           event-type: mondoo-deploy
           client-payload: '{"version": "${{ github.ref_name }}", "url": "${{ steps.upload-release-asset.outputs.browser_download_url }}"}'
