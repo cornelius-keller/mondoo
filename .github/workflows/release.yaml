@@ -49,5 +49,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: cornelius-keller/mondoo-deploy
           event-type: mondoo-deploy
-          payload: '{"version": "${{ github.ref_name }}", "url": "${{ steps.upload-release-asset.outputs.browser_download_url }}"}'
+          client-payload: '{"version": "${{ github.ref_name }}", "url": "${{ steps.upload-release-asset.outputs.browser_download_url }}"}'
 
