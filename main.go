@@ -27,5 +27,9 @@ func main() {
 		env_port = ":" + env_port
 	}
 
-	r.Run(env_port)
+	err := r.Run(env_port)
+
+	if err != nil {
+		panic(err)
+	}
 }
