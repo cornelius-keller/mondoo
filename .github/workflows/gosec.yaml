@@ -43,6 +43,8 @@ jobs:
         with:
           go-version: '1.21'
           cache: false
+      - name: verify dependencies
+        run: go mod verify
       - name: test
         run: go test ./...
       - name: build
